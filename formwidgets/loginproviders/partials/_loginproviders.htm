@@ -3,7 +3,7 @@
 <?php else: ?>
 <p>
     <?php foreach ( $this->model->tohur_socialconnect_providers as $provider ): ?>
-    <i class="fab fa-2x fa-<?= strtolower($provider->provider_id) ?>" data-toggle='tooltip' title="<?= $provider->provider_id ?>"></i>
+    <i class="fa fa-2x icon-<?= strtolower($provider->provider_id) ?>" data-toggle='tooltip' title="<?= $provider->provider_id ?>"></i>
     <?php endforeach; ?>
 </p>
 <?php endif;

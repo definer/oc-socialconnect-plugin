@@ -2,17 +2,17 @@
 
 namespace Tohur\SocialConnect\SocialConnectProviders;
 
-use Backend\Widgets\Form;
-use Tohur\SocialConnect\Classes\TwitchProvider;
-use Tohur\SocialConnect\SocialConnectProviders\SocialConnectProviderBase;
-use Socialite;
 use URL;
+use Socialite;
+use Backend\Widgets\Form;
+use Tohur\SocialConnect\Classes\VkontakteProvider;
+use Tohur\SocialConnect\SocialConnectProviders\SocialConnectProviderBase;
 
-class Twitch extends SocialConnectProviderBase {
+class Vkontakte extends SocialConnectProviderBase {
 
     use \October\Rain\Support\Traits\Singleton;
 
-    protected $driver = 'Twitch';
+    protected $driver = 'Vkontakte';
 
     /**
      * Initialize the singleton free from constructor parameters.
@@ -22,70 +22,68 @@ class Twitch extends SocialConnectProviderBase {
 
         // Socialite uses config files for credentials but we want to pass from
         // our settings page - so override the login method for this provider
-        Socialite::extend($this->driver, /**
-                 *
-                 */
-                function($app) {
-            $providers = \Tohur\SocialConnect\Models\Settings::instance()->get('providers', []);
-            $providers['Twitch']['redirect'] = URL::route('tohur_socialconnect_provider_callback', ['Twitch'], true);
-            $provider = Socialite::buildProvider(
-                    TwitchProvider::class, (array) @$providers['Twitch']
-            );
-            return $provider;
-        });
+        Socialite::extend($this->driver,
+            function($app) {
+                $providers = \Tohur\SocialConnect\Models\Settings::instance()->get('providers', []);
+                $providers['Vkontakte']['redirect'] = URL::route('tohur_socialconnect_provider_callback', ['Vkontakte'], true);
+                $provider = Socialite::buildProvider(
+                    VkontakteProvider::class, (array) @$providers['Vkontakte']
+                );
+                return $provider;
+            });
     }
 
     public function isEnabled() {
         $providers = $this->settings->get('providers', []);
 
-        return !empty($providers['Twitch']['enabled']);
+        return !empty($providers['Vkontakte']['enabled']);
     }
 
     public function isEnabledForBackend() {
         $providers = $this->settings->get('providers', []);
 
-        return !empty($providers['Twitch']['enabledForBackend']);
+        return !empty($providers['Vkontakte']['enabledForBackend']);
     }
 
     public function extendSettingsForm(Form $form) {
         $form->addFields([
             'noop' => [
                 'type' => 'partial',
-                'path' => '$/tohur/socialconnect/partials/backend/forms/settings/_twitch_info.htm',
-                'tab' => 'Twitch',
+                'path' => '$/tohur/socialconnect/partials/backend/forms/settings/_vkontakte_info.htm',
+                'tab' => 'Vkontakte',
             ],
-            'providers[Twitch][enabled]' => [
+            'providers[Vkontakte][enabled]' => [
                 'label' => 'Enabled on frontend?',
                 'type' => 'checkbox',
-                'comment' => 'Can frontend users log in with Twitch?',
+                'comment' => 'Can frontend users log in with Vkontakte?',
                 'default' => 'true',
                 'span' => 'left',
-                'tab' => 'Twitch',
+                'tab' => 'Vkontakte',
             ],
-            'providers[Twitch][enabledForBackend]' => [
+            'providers[Vkontakte][enabledForBackend]' => [
                 'label' => 'Enabled on backend?',
                 'type' => 'checkbox',
-                'comment' => 'Can administrators log into the backend with Twitch?',
+                'comment' => 'Can administrators log into the backend with Vkontakte?',
                 'default' => 'false',
                 'span' => 'right',
-                'tab' => 'Twitch',
+                'tab' => 'Vkontakte',
             ],
-            'providers[Twitch][redirect]' => [
-                'label' => 'Redirect',
+            'providers[Vkontakte][client_id]' => [
+                'label' => 'Application ID',
                 'type' => 'text',
-                'tab' => 'Twitch',
+                'tab' => 'Vkontakte',
             ],
-            'providers[Twitch][client_id]' => [
-                'label' => 'Client ID',
+            'providers[Vkontakte][client_public]' => [
+                'label' => 'Public Key',
                 'type' => 'text',
-                'tab' => 'Twitch',
+                'tab' => 'Vkontakte',
             ],
-            'providers[Twitch][client_secret]' => [
-                'label' => 'Client Secret',
+            'providers[Vkontakte][client_secret]' => [
+                'label' => 'Secure key',
                 'type' => 'text',
-                'tab' => 'Twitch',
+                'tab' => 'Vkontakte',
             ],
-                ], 'primary');
+        ], 'primary');
     }
 
     /**
@@ -105,5 +103,4 @@ class Twitch extends SocialConnectProviderBase {
 
         return (array) $user;
     }
-
 }

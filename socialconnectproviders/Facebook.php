@@ -27,7 +27,7 @@ class Facebook extends SocialConnectProviderBase {
             $providers['Facebook']['redirect'] = URL::route('tohur_socialconnect_provider_callback', ['Facebook'], true);
 
             return Socialite::buildProvider(
-                            FacebookProvider::class, (array) @$providers['Facebook']
+                    FacebookProvider::class, (array) @$providers['Facebook']
             );
         });
     }

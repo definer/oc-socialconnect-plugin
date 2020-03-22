@@ -2,19 +2,17 @@
 
 namespace Tohur\SocialConnect;
 
-use App;
-use Backend;
-use Event;
 use URL;
-use Illuminate\Foundation\AliasLoader;
-use System\Classes\PluginBase;
-use System\Classes\SettingsManager;
-use RainLab\User\Models\User;
-use RainLab\User\Models\UserGroup;
-use October\Rain\Support\Collection;
-use RainLab\User\Controllers\Users as UsersController;
+use App;
+use Event;
 use Backend\Widgets\Form;
+use RainLab\User\Models\User;
+use System\Classes\PluginBase;
+use RainLab\User\Models\UserGroup;
+use System\Classes\SettingsManager;
+use Illuminate\Foundation\AliasLoader;
 use Tohur\SocialConnect\Classes\ProviderManager;
+use RainLab\User\Controllers\Users as UsersController;
 
 /**
  * SocialConnect Plugin Information File
@@ -34,7 +32,8 @@ class Plugin extends PluginBase {
      *
      * @return array
      */
-    public function pluginDetails() {
+    public function pluginDetails()
+    {
         return [
             'name' => 'Social Connect',
             'description' => 'Allows visitors to register/sign in with their social media accounts',
@@ -43,7 +42,8 @@ class Plugin extends PluginBase {
         ];
     }
 
-    public function registerSettings() {
+    public function registerSettings()
+    {
         return [
             'settings' => [
                 'label' => 'Social Connect',
@@ -57,7 +57,8 @@ class Plugin extends PluginBase {
         ];
     }
 
-    public function registerComponents() {
+    public function registerComponents()
+    {
         return [
             'Tohur\SocialConnect\Components\SocialConnect' => 'socialconnect',
         ];
@@ -67,18 +68,18 @@ class Plugin extends PluginBase {
      * Register method, called when the plugin is first registered.
      * @return void
      */
-    public function register() {
-
+    public function register()
+    {
         /*
          * Registers the Social Connect UserExtended module
          */
-
         if (class_exists('Clake\UserExtended\Classes\UserExtended')) {
             Module::register();
         }
     }
 
-    public function boot() {
+    public function boot()
+    {
         // Load socialite
         App::register(\SocialiteProviders\Manager\ServiceProvider::class);
         AliasLoader::getInstance()->alias('Socialite', 'Laravel\Socialite\Facades\Socialite');
@@ -147,7 +148,7 @@ class Plugin extends PluginBase {
                     'label' => 'Social Providers',
                     'type' => 'Tohur\SocialConnect\FormWidgets\LoginProviders',
                 ],
-                    ], 'secondary');
+            ], 'secondary');
         });
 
         // Add backend login provider integration
@@ -166,18 +167,19 @@ class Plugin extends PluginBase {
         });
     }
 
-    function register_tohur_socialconnect_providers() {
+    function register_tohur_socialconnect_providers()
+    {
         return [
             '\\Tohur\\SocialConnect\\SocialConnectProviders\\Facebook' => [
                 'label' => 'Facebook',
                 'alias' => 'Facebook',
                 'description' => 'Log in with Facebook'
-            ], 
+            ],
             '\\Tohur\\SocialConnect\\SocialConnectProviders\\Twitter' => [
                 'label' => 'Twitter',
                 'alias' => 'Twitter',
                 'description' => 'Log in with Twitter'
-            ],            
+            ],
             '\\Tohur\\SocialConnect\\SocialConnectProviders\\Google' => [
                 'label' => 'Google',
                 'alias' => 'Google',
@@ -187,11 +189,16 @@ class Plugin extends PluginBase {
                 'label' => 'Microsoft',
                 'alias' => 'Microsoft',
                 'description' => 'Log in with Microsoft'
-            ],            
+            ],
             '\\Tohur\\SocialConnect\\SocialConnectProviders\\Discord' => [
                 'label' => 'Discord',
                 'alias' => 'Discord',
                 'description' => 'Log in with Discord'
+            ],
+            '\\Tohur\\SocialConnect\\SocialConnectProviders\\Vkontakte' => [
+                'label' => 'Vkontakte',
+                'alias' => 'Vkontakte',
+                'description' => 'Log in with Vkontakte'
             ],
             '\\Tohur\\SocialConnect\\SocialConnectProviders\\Twitch' => [
                 'label' => 'Twitch',
@@ -202,8 +209,7 @@ class Plugin extends PluginBase {
                 'label' => 'Mixer',
                 'alias' => 'Mixer',
                 'description' => 'Log in with Mixer'
-            ],
+            ]
         ];
     }
-
 }

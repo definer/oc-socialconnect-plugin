@@ -31,7 +31,7 @@ class Twitter extends SocialConnectProviderBase {
                     app()->request, new TwitterServer($providers['Twitter'])
             );
             return Socialite::buildProvider(
-                            TwitterProvider::class, (array) @$providers['Twitter']
+                TwitterProvider::class, (array) @$providers['Twitter']
             );
         });
     }
